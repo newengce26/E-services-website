@@ -114,13 +114,13 @@ window.Site = (function () {
           <ul class="space-y-2 text-sm">
             <li><a href="/services" class="hover:text-white">جميع الخدمات</a></li>
             <li><a href="/my-orders" class="hover:text-white">طلباتي</a></li>
-            <li><a href="/admin/login" class="hover:text-white">دخول لوحة التحكم</a></li>
+            <!-- <li><a href="/admin/login" class="hover:text-white">دخول لوحة التحكم</a></li> -->
           </ul>
         </div>
         <div>
           <h4 class="font-bold text-white mb-3">تواصل معنا</h4>
-          <p class="text-sm text-gray-400"><i class="fas fa-envelope ml-2"></i> support@example.com</p>
-          <p class="text-sm text-gray-400 mt-1"><i class="fas fa-phone ml-2"></i> 966500000000+</p>
+          <p class="text-sm text-gray-400"><i class="fas fa-envelope ml-2"></i> support@digiservices-market.com</p>
+          <p class="text-sm text-gray-400 mt-1"><i class="fas fa-phone ml-2"></i> 966538862673+</p>
         </div>
       </div>
       <div class="border-t border-gray-800 py-4 text-center text-xs text-gray-500">© 2026 سوق الخدمات الإلكترونية. جميع الحقوق محفوظة.</div>

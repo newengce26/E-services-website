@@ -1,22 +1,33 @@
 {
-  "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "khadamat-market",
-  "compatibility_date": "2026-07-10",
-  "pages_build_output_dir": "./dist",
-  "compatibility_flags": [
-    "nodejs_compat"
-  ],
-  "d1_databases": [
-    {
-      "binding": "DB",
-      "database_name": "khadamat-market-production",
-      "database_id": "REPLACE_WITH_ACTUAL_ID"
-    }
-  ],
-  "r2_buckets": [
-    {
-      "binding": "RECEIPTS",
-      "bucket_name": "khadamat-market-receipts"
-    }
-  ]
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "khadamat-market",
+	"compatibility_date": "2026-07-10",
+	"pages_build_output_dir": "./dist",
+	"compatibility_flags": [
+		"nodejs_compat"
+	],
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "khadamat-market-production",
+			"database_id": "a56ee20e-31c8-45fc-bcc2-20fc6fe9523b"
+		},
+		{
+			"binding": "khadamat_market_production",
+			"database_name": "khadamat-market-production",
+			"database_id": "a56ee20e-31c8-45fc-bcc2-20fc6fe9523b",
+			"remote": true
+		}
+	],
+	"r2_buckets": [
+		{
+			"binding": "RECEIPTS",
+			"bucket_name": "khadamat-market-receipts"
+		},
+		{
+			"bucket_name": "khadamat-market-receipts",
+			"binding": "khadamat_market_receipts",
+			"remote": true
+		}
+	]
 }
