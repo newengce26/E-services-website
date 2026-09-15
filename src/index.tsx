@@ -42,6 +42,7 @@ app.get('/', (c) => {
       </div>
       <script src="/static/site-common.js"></script>
       <script src="/static/page-home.js"></script>
+      <script src="/static/national-day-promo.js"></script>
     </div>,
     { title: 'سوق الخدمات الإلكترونية | الرئيسية' }
   )
@@ -53,10 +54,27 @@ app.get('/services', (c) => {
       <div id="app-root"></div>
       <script src="/static/site-common.js"></script>
       <script src="/static/page-services.js"></script>
+      <script src="/static/national-day-promo.js"></script>
     </div>,
     { title: 'جميع الخدمات | سوق الخدمات الإلكترونية' }
   )
 })
+
+// عرض اليوم الوطني يجب أن يكون قبل /services/:slug حتى لا يُعامل national-day كخدمة عادية
+app.get('/services/national-day', (c) => {
+  return c.render(
+    <div id="page-national-day" data-page="national-day">
+      <div id="app-root"></div>
+      <script src="/static/site-common.js"></script>
+      <script src="/static/page-national-day.js"></script>
+    </div>,
+    { title: 'عروض اليوم الوطني 96 | سوق الخدمات الإلكترونية' }
+  )
+})
+
+app.get('/services/national-day/', (c) => c.redirect('/services/national-day', 302))
+app.get('/national-day', (c) => c.redirect('/services/national-day', 302))
+app.get('/national-day/', (c) => c.redirect('/services/national-day', 302))
 
 app.get('/services/:slug', (c) => {
   return c.render(

@@ -3,6 +3,8 @@ import type { Bindings } from '../lib/types'
 
 const publicRoutes = new Hono<{ Bindings: Bindings }>()
 
+const NATIONAL_DAY_CAMPAIGN_ID = 'national-day-96'
+
 // جميع التصنيفات
 publicRoutes.get('/categories', async (c) => {
   const { results } = await c.env.DB.prepare(
@@ -37,6 +39,85 @@ publicRoutes.get('/services', async (c) => {
 
   const { results } = await c.env.DB.prepare(sql).bind(...params).all()
   return c.json({ services: results })
+})
+
+// إحصائيات حملة اليوم الوطني
+publicRoutes.get('/national-day-stats', async (c) => {
+  const stats = await c.env.DB.prepare(
+    `SELECT views, clicks, whatsapp_clicks, phone_clicks, email_clicks
+     FROM campaign_stats
+     WHERE id = ?`
+  ).bind(NATIONAL_DAY_CAMPAIGN_ID).first()
+
+  return c.json({
+    stats: stats || {
+      views: 0,
+      clicks: 0,
+      whatsapp_clicks: 0,
+      phone_clicks: 0,
+      email_clicks: 0,
+    },
+  })
+})
+
+// تسجيل مشاهدة أو نقرة في حملة اليوم الوطني
+publicRoutes.post('/national-day-stats', async (c) => {
+  const body = await c.req.json().catch(() => null) as
+    | { event?: string; channel?: string }
+    | null
+
+  if (!body?.event) {
+    return c.json({ error: 'event is required' }, 400)
+  }
+
+  await c.env.DB.prepare(
+    `INSERT OR IGNORE INTO campaign_stats
+      (id, views, clicks, whatsapp_clicks, phone_clicks, email_clicks)
+     VALUES (?, 0, 0, 0, 0, 0)`
+  ).bind(NATIONAL_DAY_CAMPAIGN_ID).run()
+
+  if (body.event === 'view') {
+    await c.env.DB.prepare(
+      `UPDATE campaign_stats
+       SET views = views + 1, updated_at = CURRENT_TIMESTAMP
+       WHERE id = ?`
+    ).bind(NATIONAL_DAY_CAMPAIGN_ID).run()
+  } else if (body.event === 'click') {
+    const fieldMap: Record<string, string> = {
+      whatsapp: 'whatsapp_clicks',
+      phone: 'phone_clicks',
+      email: 'email_clicks',
+    }
+
+    const field = body.channel ? fieldMap[body.channel] : undefined
+
+    if (field) {
+      await c.env.DB.prepare(
+        `UPDATE campaign_stats
+         SET clicks = clicks + 1,
+             ${field} = ${field} + 1,
+             updated_at = CURRENT_TIMESTAMP
+         WHERE id = ?`
+      ).bind(NATIONAL_DAY_CAMPAIGN_ID).run()
+    } else {
+      await c.env.DB.prepare(
+        `UPDATE campaign_stats
+         SET clicks = clicks + 1,
+             updated_at = CURRENT_TIMESTAMP
+         WHERE id = ?`
+      ).bind(NATIONAL_DAY_CAMPAIGN_ID).run()
+    }
+  } else {
+    return c.json({ error: 'unsupported event' }, 400)
+  }
+
+  const stats = await c.env.DB.prepare(
+    `SELECT views, clicks, whatsapp_clicks, phone_clicks, email_clicks
+     FROM campaign_stats
+     WHERE id = ?`
+  ).bind(NATIONAL_DAY_CAMPAIGN_ID).first()
+
+  return c.json({ stats })
 })
 
 // تفاصيل خدمة واحدة
