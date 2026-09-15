@@ -119,8 +119,18 @@ window.Site = (function () {
         </div>
         <div>
           <h4 class="font-bold text-white mb-3">تواصل معنا</h4>
-          <p class="text-sm text-gray-400"><i class="fas fa-envelope ml-2"></i> support@digiservices-market.com</p>
-          <p class="text-sm text-gray-400 mt-1"><i class="fas fa-phone ml-2"></i> 966538862673+</p>
+          <!-- <p class="text-sm text-gray-400"><i class="fas fa-envelope ml-2"></i> support@digiservices-market.com</p> -->
+	  <p><a href="mailto:support@digiservices-market.com"
+   		class="text-sm text-gray-400 inline-flex items-center">
+    		<i class="fas fa-envelope ml-2"></i>
+    		support@digiservices-market.com
+	  </a></p>
+          <!-- <p class="text-sm text-gray-400 mt-1"><i class="fas fa-phone ml-2"></i> 966538862673+</p> -->
+	  <p><a href="https://wa.me/966538862673" target="_blank" rel="noopener noreferrer"
+             class="text-sm text-gray-400 mt-1 inline-flex items-center">
+             <i class="fab fa-whatsapp ml-2"></i>
+             966538862673
+         </a></p>
         </div>
       </div>
       <div class="border-t border-gray-800 py-4 text-center text-xs text-gray-500">© 2026 سوق الخدمات الإلكترونية. جميع الحقوق محفوظة.</div>
